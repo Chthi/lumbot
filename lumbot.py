@@ -9,11 +9,12 @@
 import pyautogui as gui
 from time import sleep
 import keyboard
+import datetime
 
 gui.PAUSE = 0
 
 # we can see 4 branches at the same time on screen
-branches_number = 4
+branches_number = 6
 # ordre de coupe des branches
 cut_order = ['no order'] * branches_number
 # colors of the inside of the branches
@@ -24,13 +25,18 @@ white = (255,255,255)
 animation_time = 0.18
 
 # restartX, restartY = 400, 732
-restartX, restartY = 800, 734
+# restartX, restartY = 800, 734
+restartX, restartY = 960, 924
 # increasing
 # branches_posX = [367, 431]
-branches_posX = [735, -1]
+# branches_posX = [735, -1]
+branches_posX = [907, -1]
 # decreasing
 # branches_posY = [441, 342, 243, 141]
-branches_posY = [446, 346, 246, 146]
+branches_posY = [630, 530, 430, 330, 230, 130]
+
+
+
 
 print("Press 's' to start playing.")
 keyboard.wait("s")
@@ -40,12 +46,16 @@ while not keyboard.is_pressed('q'):
 	gui.moveTo(restartX, restartY)
 	gui.click()
 	sleep(0.30)
-	print(gui.pixelMatchesColor(restartX, restartY, white, tolerance=10))
+
+	img = gui.screenshot()
+	# img.show()
+	print(img.getpixel((restartX, restartY)) == white)
+
 	# when we lose the button to restart appears and the pixel is not white anymore
-	while gui.pixelMatchesColor(restartX, restartY, white, tolerance=10):
+	while img.getpixel((restartX, restartY)) == white:
 		for branch in range(0, branches_number):
-			# saving all visible branches on the left
-			if gui.pixelMatchesColor(branches_posX[0], branches_posY[branch], brown, tolerance=10):
+			# memorizing where all the visible branches on the left are
+			if img.getpixel((branches_posX[0], branches_posY[branch])) == brown:
 				cut_order[branch] = 'right'
 			else:
 				cut_order[branch] = 'left'
@@ -58,4 +68,11 @@ while not keyboard.is_pressed('q'):
 			gui.press(cut_order[order])
 			sleep(0.02)
 			gui.press(cut_order[order])
+		# we take only one screenshot at the end
+		# after waiting for the scrolling down animation
+		# so all branches will be placed right
 		sleep(animation_time)
+		img = gui.screenshot()
+	# at the end take and save a screenshot with the score
+	img = gui.screenshot("highscores/" + datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S") + ".png")
+	

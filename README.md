@@ -1,6 +1,6 @@
 # lumbot
 
-A bot to play lumber game.  
+A bot to play LumberJack game.  
 https://tbot.xyz/lumber/
 
 
@@ -8,4 +8,10 @@ https://tbot.xyz/lumber/
 `lumbot.py` is an competitive implementation.  
 `screen_coords.py` to help you get the screen coordinates of the branches.  
 
-<img src="ressources/game.png" width="" height=""/>
+[![lumbot](ressources/game.png)](https://www.youtube.com/watch?v=kKio7ZZUATs)
+
+<!-- <img src="ressources/game.png" width="" height=""/> -->
+
+
+
+
